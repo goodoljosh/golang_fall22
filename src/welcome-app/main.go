@@ -17,6 +17,12 @@ type Welcome struct {
 type JsonResponse struct{
 	Value1 string `json:"key1"`
 	Value2 string `json:"key2"`
+	JsonNested JsonNested `json:"JsonNested`
+}
+
+type JsonNested struct {
+	NestedValue1 string `json:"nestedkey1"`
+	NestedValue2 string `json:"nestedkey2"`
 }
 
 // Go application entrypoint
@@ -29,9 +35,16 @@ func main() {
 	// the relative path). We wrap it in a call to template.Must() which handles any errors and halts if there are fatal errors
 
 	templates := template.Must(template.ParseFiles("templates/welcome-template.html"))
+
+	nested := JsonNested{
+		NestedValue1: "first nested value",
+		NestedValue2: "second nested value",
+	}
+
 	jsonResp := JsonResponse{
 		Value1: "some Data",
 		Value2: "other Data",
+		JsonNested: nested,
 	}
 
 	//Our HTML comes with CSS that go needs to provide when we run the app. Here we tell go to create
@@ -65,7 +78,9 @@ func main() {
 	http.HandleFunc("/jsonResponse", func(w http.ResponseWriter, r *http.Request){
 		json.NewEncoder(w).Encode(jsonResp)
 	})
-	
+
+    // third path, get/fetch, return an json object like an API with 2 nested objects {firstname:"", lastname:"", address:(street"", city...), contactInfo:{email:"", phone:""}}
+
 	fmt.Println("Listening")
 	fmt.Println(http.ListenAndServe(":8080", nil))
 }
