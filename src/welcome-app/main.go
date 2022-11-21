@@ -14,15 +14,36 @@ type Welcome struct {
 	Time string
 }
 
-type JsonResponse struct{
-	Value1 string `json:"key1"`
-	Value2 string `json:"key2"`
-	JsonNested JsonNested `json:"JsonNested`
+// type JsonResponse struct{
+// 	Value1 string `json:"key1"`
+// 	Value2 string `json:"key2"`
+// 	JsonNested JsonNested `json:"JsonNested`
+// }
+
+
+// type JsonNested struct {
+// 	NestedValue1 string `json:"nestedkey1"`
+// 	NestedValue2 string `json:"nestedkey2"`
+// }
+
+type JsonContact struct{
+    Value3 string `json:"key3"`
+	Value4 string `json:"key4"`
+	Value5 string `json:"key5"`
+	JsonNestedAdd JsonNestedAdd `json:"JsonNestedAdd`
+	Value6 string `json:"key6"`
+	JsonNestedConInfo JsonNestedConInfo `json: "JsonNestedConInfo`
 }
 
-type JsonNested struct {
-	NestedValue1 string `json:"nestedkey1"`
-	NestedValue2 string `json:"nestedkey2"`
+type JsonNestedAdd struct {
+	NestedValue3 string `json:"nestedkey3"`
+	NestedValue4 string `json:"nestedkey4"`
+}
+
+
+type JsonNestedConInfo struct{
+	NestedValue5 string `json:"nestedkey5"`
+	NestedValue6 string `json:"nestedkey6"`
 }
 
 // Go application entrypoint
@@ -36,16 +57,38 @@ func main() {
 
 	templates := template.Must(template.ParseFiles("templates/welcome-template.html"))
 
-	nested := JsonNested{
-		NestedValue1: "first nested value",
-		NestedValue2: "second nested value",
+	// nested := JsonNested{
+	// 	NestedValue1: "first nested value",
+	// 	NestedValue2: "second nested value",
+	// }
+
+	// jsonResp := JsonResponse{
+	// 	Value1: "some Data",
+	// 	Value2: "other Data",
+	// 	JsonNested: nested,
+	// }
+
+	nestedAdd := JsonNestedAdd{
+		NestedValue3: "245 Faux Avenue",
+		NestedValue4: "Blueberrysburg, Michigan",
+	}
+	
+	NestedConInfo := JsonNestedConInfo{
+		NestedValue5: "email: eatatjoes@barnsandnoble.com",
+		NestedValue6: "phone: 309-111-2321",
 	}
 
-	jsonResp := JsonResponse{
-		Value1: "some Data",
-		Value2: "other Data",
-		JsonNested: nested,
+	jsonCon := JsonContact{
+		Value3: "FirstName: John ",
+		Value4: "LastName: Doe ",
+		Value5: "Address:",
+		JsonNestedAdd: nestedAdd,
+		Value6: "Contact Information:",
+		JsonNestedConInfo: NestedConInfo,
+
 	}
+
+
 
 	//Our HTML comes with CSS that go needs to provide when we run the app. Here we tell go to create
 	// a handle that looks in the static directory, go then uses the "/static/" as a url that our
@@ -75,8 +118,9 @@ func main() {
     
 	//Start the web server, set the port to listen to 8080. Without a path it assumes localhost
 	//Print any errors from starting the webserver using fmt
-	http.HandleFunc("/jsonResponse", func(w http.ResponseWriter, r *http.Request){
-		json.NewEncoder(w).Encode(jsonResp)
+	http.HandleFunc("/jsonContact", func(w http.ResponseWriter, r *http.Request){
+		//json.NewEncoder(w).Encode(jsonResp)
+		json.NewEncoder(w).Encode(jsonCon)
 	})
 
     // third path, get/fetch, return an json object like an API with 2 nested objects {firstname:"", lastname:"", address:(street"", city...), contactInfo:{email:"", phone:""}}
