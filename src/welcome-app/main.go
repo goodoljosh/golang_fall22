@@ -13,7 +13,7 @@ type Welcome struct {
 	Name string
 	Time string
 }
-
+//Note:Work on class videos commented out for focus on assignment
 // type JsonResponse struct{
 // 	Value1 string `json:"key1"`
 // 	Value2 string `json:"key2"`
@@ -56,7 +56,7 @@ func main() {
 	// the relative path). We wrap it in a call to template.Must() which handles any errors and halts if there are fatal errors
 
 	templates := template.Must(template.ParseFiles("templates/welcome-template.html"))
-
+    //Note:Work on class videos commented out for focus on assignment
 	// nested := JsonNested{
 	// 	NestedValue1: "first nested value",
 	// 	NestedValue2: "second nested value",
@@ -72,10 +72,10 @@ func main() {
 		NestedValue3: "245 Faux Avenue",
 		NestedValue4: "Blueberrysburg, Michigan",
 	}
-	
+
 	NestedConInfo := JsonNestedConInfo{
-		NestedValue5: "email: eatatjoes@barnsandnoble.com",
-		NestedValue6: "phone: 309-111-2321",
+		NestedValue5: "Email: eatatjoes@barnsandnoble.com",
+		NestedValue6: "Phone: 309-111-2321",
 	}
 
 	jsonCon := JsonContact{
@@ -88,21 +88,10 @@ func main() {
 
 	}
 
-
-
-	//Our HTML comes with CSS that go needs to provide when we run the app. Here we tell go to create
-	// a handle that looks in the static directory, go then uses the "/static/" as a url that our
-	//html can refer to when looking for our css and other files.
-    //fmt.Fprint("%+v\n\n\n\n",jsonResp);
 	http.Handle("/static/", //final url can be anything
 		http.StripPrefix("/static/",
 			http.FileServer(http.Dir("static")))) //Go looks in the relative "static" directory first using http.FileServer(), then matches it to a
-	//url of our choice as shown in http.Handle("/static/"). This url is what we need when referencing our css files
-	//once the server begins. Our html code would therefore be <link rel="stylesheet"  href="/static/stylesheet/...">
-	//It is important to note the url in http.Handle can be whatever we like, so long as we are consistent.
 
-	//This method takes in the URL path "/" and a function that takes in a response writer, and a http request.
-	// **** THIS IS THE MAIN PATH /
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
 		//Takes the name from the URL query e.g ?name=Martin, will set welcome.Name = Martin.
